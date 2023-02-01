@@ -327,6 +327,8 @@ def convert_c_to_python(input_file, output_file):
 
 if __name__ == "__main__":
 
+    print("** running cpp2constants.py")
+
     in_file  = "include\\wctypemw.h"
     out_file = "wcpapi\\wctypemw_constants_h.py"
     convert_c_to_python(in_file, out_file)

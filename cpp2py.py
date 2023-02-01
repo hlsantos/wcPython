@@ -1,4 +1,18 @@
-# convert c header to python ctypes
+#***********************************************************************
+# (c) Copyright 1998-2023 Santronics Software, Inc. All Rights Reserved.
+#***********************************************************************
+#
+# File Name : c:\local\sandbox\OpenAI\cpp2py.py
+# Subsystem : Wildcat! Python API (wcPAPI)
+# Date      : 01/29/23 10:51 am
+# Version   : 8.0.454.13
+# Author    : SSI
+# About     : convert wcSDK headers to python ctypes
+#
+# Revision History:
+# Build    Date      Author  Comments
+# -----    --------  ------  -------------------------------------------
+#***********************************************************************
 
 import os
 import sys
@@ -494,15 +508,11 @@ def functions_to_ctypes(header_file, output_file, dll_key):
                 if not line:
                     break
 
-#-----------------------------------------------------------------------------------------------
-# \local\wc8\include\wctype.h
-# \local\wc8\include\wcserver.h
-# wctype_user.h
-# wctype.py
-# wctype_h.py
-# wctype_user_h.py
-
+#------------------------------------------------------
+# main
+#------------------------------------------------------
 if __name__ == "__main__":
+    print("** running cpp2py.py")
 
     if 1:
         #filename = os.path.basename(s)

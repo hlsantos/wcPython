@@ -95,9 +95,9 @@ def GetWildcatErrorStr(error_number):
 
 
 if __name__ == '__main__':
-   print("** cpp2wcerror.py v0.1")
+   print("** running cpp2wcerror.py")
 
-   in_file   = "c:/local/wc8/include/wcserror.h"
+   in_file   = "include/wcserror.h"
    out_file  = "wcPapi/wcserror_h.py"
    current_method(in_file, out_file)
 
