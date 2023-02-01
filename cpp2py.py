@@ -514,20 +514,6 @@ def functions_to_ctypes(header_file, output_file, dll_key):
 if __name__ == "__main__":
     print("** running cpp2py.py")
 
-    if 1:
-        #filename = os.path.basename(s)
-        #new_filename = filename.split(".")[0] + "_h.py"
-        input_file  = sys.argv[1] if len(sys.argv) > 1 else "\\local\\wc8\\include\\wctype.h"
-        output_file = sys.argv[2] if len(sys.argv) > 2 else "wctype_h.py"
-    else:
-        if len(sys.argv) != 3:
-            print("Usage: cpp2py.py input_file output_file")
-            sys.exit(1)
-
-        input_file = sys.argv[1]
-        output_file = sys.argv[2]
-
-
     ## STRUCTURES & FUNCTIONS
 
     if 1:
