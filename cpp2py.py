@@ -531,30 +531,30 @@ if __name__ == "__main__":
     ## STRUCTURES & FUNCTIONS
 
     if 1:
-       input_file  = "\\local\\wc8\\include\\wctype.h"
-       output_file = "wcpapi\\wctype_h.py"
+       input_file  = "include/wctype.h"
+       output_file = "wcpapi/wctype_h.py"
        structures_to_ctypes(input_file, output_file, ["ExtraHeaders"])
 
-       input_file  = "\\local\\wc8\\include\\wcserver.h"
-       output_file = "wcpapi\\wcserver_h.py"
+       input_file  = "include/wcserver.h"
+       output_file = "wcpapi/wcserver_h.py"
        functions_to_ctypes(input_file, output_file, "wcsrv")
 
     if 1:
-       input_file  = "\\local\\wc8\\include\\wctypemw.h"
-       output_file = "wcpapi\\wctypemw_h.py"
+       input_file  = "include/wctypemw.h"
+       output_file = "wcpapi/wctypemw_h.py"
        structures_to_ctypes(input_file, output_file)
 
-       input_file  = "\\local\\wc8\\include\\wcsmw.h"
-       output_file = "wcpapi\\wcsmw_h.py"
+       input_file  = "include/wcsmw.h"
+       output_file = "wcpapi/wcsmw_h.py"
        functions_to_ctypes(input_file, output_file, "wcsmw")
 
     if 1:
-       input_file  = "\\local\\wc8\\include\\wcgtype.h"
-       output_file = "wcpapi\\wcgtype_h.py"
+       input_file  = "include/wcgtype.h"
+       output_file = "wcpapi/wcgtype_h.py"
        structures_to_ctypes(input_file, output_file)
 
-       input_file  = "\\local\\wc8\\include\\wcsgate.h"
-       output_file = "wcpapi\\wcsgate_h.py"
+       input_file  = "include/wcsgate.h"
+       output_file = "wcpapi/wcsgate_h.py"
        functions_to_ctypes(input_file, output_file, "wcsgate")
 
 
