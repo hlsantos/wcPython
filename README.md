@@ -1,3 +1,5 @@
+Some how this became a WinserverSupport Version
+
 Wildcat! Python API (wcPAPI)
 (c) Copyright 1998-2023 Santronics Software, Inc. All Rights Reserved.
 
