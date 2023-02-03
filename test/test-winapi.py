@@ -1,5 +1,6 @@
 # ----------------------------------------------------------
-# WcPAPI testing
+# WcPAPI testing. There are many test before that are turned
+# on and off with the on `if 1:` or off `if 0:` blocks.
 # ----------------------------------------------------------
 
 import re
@@ -99,7 +100,7 @@ if 0:
       print("MakeWild error:",hex(GetLastError()))
 
 # ----------------------------------------------------------
-# Testing GetUserById()
+# Testing GetUserById() 
 # ----------------------------------------------------------
 if 0:
    # create a TUser struct to hold the result
@@ -107,8 +108,7 @@ if 0:
    tid =  DWORD()
 
    # call the GetUserById function
-   id = 228332
-   id = 1
+   id = 1  
    if GetUserById(id, user, byref(tid)):
       try:
         print(f"Thread ID: {tid.value}")
@@ -127,7 +127,6 @@ if 0:
 
    else:
       print("User not found.")
-
 
 # ----------------------------------------------------------
 # Testing GetNextUser()
@@ -205,21 +204,17 @@ if 0:
 if 0:
     count = GetSecurityProfileCount()
     print(f"Profile count: ",count)
-
     names = (TSecurityName * count)()
-
     if GetSecurityProfileNames(count, names):
         for i in range(count):
             print(names[i])
     else:
         print("Error getting security profile names")
 
-
 # ----------------------------------------------------------
 # Testing MwLogin()
 # ----------------------------------------------------------
 if 1:
-
     LogoutUser()
     csrv = wcGetConnectedServer()
     pwds = {"NTBBS" : "",
@@ -240,7 +235,6 @@ if 1:
     if not count:
         print(f"Error {GetWildcatErrorStr(GetLastError())}: count is zero?")
 
-
     # create an array of TSecurityName instances
     security_names = (TSecurityName * count)()
 
@@ -251,7 +245,6 @@ if 1:
             print(security_names[i])
     else:
         print(f"Error {GetWildcatErrorStr(GetLastError())}: getting security names")
-
 
 # ----------------------------------------------------------
 if not WildcatServerDeleteContext():
