@@ -57,13 +57,31 @@ def doit(cnum, bList):
     msg = TMsgHeader()
     msg.Conference = cnum
 
+    dbg_zoom = 0
+    if 0:
+       Id  = 1640286863; Number = 116245
+       if not GetMessageById(cnum,Id,msg):
+          print(f"** ZOOM id {Id} Not Found")
+       else:
+          print(f"** ZOOM id {Id}")
+          dbg_zoom = 1
+       input()
+
     while GetNextMessage(ctypes.byref(msg)):
         dwCnt += 1
         dwSize += msg.MsgSize
-        print("{:5} {:9} | {:6} | {:9} | {:08x} | {:17} | {:40} | {:40} | {}".format(
-            dwCnt, msg.Id, msg.Number, msg.MsgSize, msg.MailFlags,
-            FormatFileTime(msg.MsgTime), msg.To.Name, msg.From.Name, msg.Subject
-        ))
+        try:
+           print("{:5} {:9} | {:6} | {:9} | {:08x} | {:17} | {:40} | {:40} | {}".format(
+              dwCnt, msg.Id, msg.Number, msg.MsgSize, msg.MailFlags,
+              FormatFileTime(msg.MsgTime), msg.To.Name, msg.From.Name, msg.Subject
+           ))
+        except Exception as e:
+           print("{:5} {:9} | {:6} | {:9} | {:08x} | {:17} | {}".format(
+              dwCnt, msg.Id, msg.Number, msg.MsgSize, msg.MailFlags,
+              FormatFileTime(msg.MsgTime), e
+           ))
+
+        if dbg_zoom: input()
     print("-" * 76)
     print("Total Msgs: {} Total Size: {}".format(dwCnt, dwSize))
 
@@ -73,14 +91,19 @@ def doit(cnum, bList):
 #------------------------------------------------------
 if __name__ == "__main__":
 
-   if len(sys.argv) < 2:
-       print("usage: wcListMail conf# [/L]")
-       print("show low/high message numbers.")
-       print("/l will display headers")
-       exit(1)
+   if 0:
+      cnum = 9
+      bList = 1
+   else:
+      if len(sys.argv) < 2:
+          print("usage: wcListMail conf# [/L]")
+          print("show low/high message numbers.")
+          print("/l will display headers")
+          exit(1)
 
-   cnum = int(sys.argv[1]) if len(sys.argv) >= 2 else 0
-   bList = len(sys.argv) >= 3 and sys.argv[2].lower() == "/l"
+      cnum = int(sys.argv[1]) if len(sys.argv) >= 2 else 0
+      bList = len(sys.argv) >= 3 and sys.argv[2].lower() == "/l"
+
 
    server = ""
    if not WildcatServerConnectSpecific(None,server):   exit(1)

@@ -38,22 +38,52 @@ dll_mapping = {"wcsrv":    ("wcsrv2.dll",  "wcsrv2x64.dll"),
                "wcsgate":  ("wcsgate.dll", "wcsgate64.dll"),
               }
 
+"""
+codeset = "UTF-8"
+#errors  = "strict"
+codeset = "ISO-8859-1"
+errors  = "ignore"
+errors  = "replace"  # try this to avoid exceptions
+
 prop_struct  = "\n"
 prop_struct  += "class PropertyStruct(ctypes.Structure):\n"
 gettersetter = ""
 gettersetter += "    def __getattribute__(self, name):\n"
 gettersetter += "        val = object.__getattribute__(self, name)\n"
 gettersetter += "        if isinstance(val, bytes):\n"
-gettersetter += "            return val.decode('ISO-8859-1')\n"
+gettersetter += f"            return val.decode('{codeset}','{errors}')\n"
 gettersetter += "        return val\n"
 gettersetter += "    def __setattr__(self, name, value):\n"
 gettersetter += "        if isinstance(value, str):\n"
-gettersetter += "            value = value.encode('ISO-8859-1')\n"
+gettersetter += f"            value = value.encode('{codeset}','{errors}')\n"
 gettersetter += "        object.__setattr__(self, name, value)\n\n"
 prop_struct  += gettersetter
+"""
+
+prop_struct = '''
+class PropertyStruct(ctypes.Structure):
+    def __getattribute__(self, name):
+        val = object.__getattribute__(self, name)
+        if isinstance(val, bytes):
+            try:
+              _val = val.decode('ISO-8859-1','ignore')
+            except:
+                try:
+                  _val = val.decode('UTF-8','ignore')
+                except:
+                  _val = hex(val)
+            return _val
+        return val
+    def __setattr__(self, name, value):
+        if isinstance(value, str):
+            value = value.encode('UTF-8','ignore')
+        object.__setattr__(self, name, value)
+
+'''
+
+
 
 def structures_to_ctypes(input_file, output_file, do_extra_set = []):
-
     type_mapping = {"DWORD":      "DWORD",
                     "BOOL":       "BOOL",
                     "FILETIME":   "FILETIME",
@@ -66,6 +96,8 @@ def structures_to_ctypes(input_file, output_file, do_extra_set = []):
                     "TConfDesc":  "TConfDesc",
                     "TFileArea":  "TFileArea",
                     }
+
+    print(f"- structures_to_ctypes: in: {input_file} out: {output_file} extra: {do_extra_set}")
 
     # Open the C header file
     with open(input_file, "r") as f: header_file_contents = f.read()
@@ -266,6 +298,7 @@ def functions_to_ctypes(header_file, output_file, dll_key):
         'WCHANDLE':         'ctypes.wintypes.HANDLE',
     }
 
+    print(f"- function_to_ctypes: in: {input_file} out: {output_file} dll: {dll_key}")
 
     pyhead = ""
     pyhead += f"# Auto-Created by cpp2py.py\n"
@@ -517,6 +550,7 @@ if __name__ == "__main__":
     ## STRUCTURES & FUNCTIONS
 
     if 1:
+       print(f"# Create base wcPython structures and functions")
        input_file  = "include/wctype.h"
        output_file = "wcpapi/wctype_h.py"
        structures_to_ctypes(input_file, output_file, ["ExtraHeaders"])
@@ -526,6 +560,7 @@ if __name__ == "__main__":
        functions_to_ctypes(input_file, output_file, "wcsrv")
 
     if 1:
+       print(f"# Create makewild wcPython structures and functions")
        input_file  = "include/wctypemw.h"
        output_file = "wcpapi/wctypemw_h.py"
        structures_to_ctypes(input_file, output_file)
@@ -535,6 +570,7 @@ if __name__ == "__main__":
        functions_to_ctypes(input_file, output_file, "wcsmw")
 
     if 1:
+       print(f"# Create mail gateway wcPython structures and functions")
        input_file  = "include/wcgtype.h"
        output_file = "wcpapi/wcgtype_h.py"
        structures_to_ctypes(input_file, output_file)

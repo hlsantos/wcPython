@@ -1,4 +1,4 @@
-# Created by cpp2py on 2023-02-02 21:53:12.848631
+# Created by cpp2py on 2023-02-03 12:40:46.522995
 
 import ctypes
 from ctypes import wintypes
@@ -12,11 +12,18 @@ class PropertyStruct(ctypes.Structure):
     def __getattribute__(self, name):
         val = object.__getattribute__(self, name)
         if isinstance(val, bytes):
-            return val.decode('ISO-8859-1')
+            try:
+              _val = val.decode('ISO-8859-1','ignore')
+            except:
+                try:
+                  _val = val.decode('UTF-8','ignore')
+                except:
+                  _val = hex(val)
+            return _val
         return val
     def __setattr__(self, name, value):
         if isinstance(value, str):
-            value = value.encode('ISO-8859-1')
+            value = value.encode('UTF-8','ignore')
         object.__setattr__(self, name, value)
 
 class TSecurityName(PropertyStruct):
