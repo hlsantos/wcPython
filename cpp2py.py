@@ -5,13 +5,14 @@
 # File Name : c:\local\sandbox\OpenAI\cpp2py.py
 # Subsystem : Wildcat! Python API (wcPAPI)
 # Date      : 01/29/23 10:51 am
-# Version   : 8.0.454.13
+# Version   : 1.0
 # Author    : SSI
 # About     : convert wcSDK headers to python ctypes
 #
 # Revision History:
-# Build    Date      Author  Comments
-# -----    --------  ------  -------------------------------------------
+# Version  Date      Author  Comments
+# -------  --------  ------  -------------------------------------------
+# 1.1      02/02/23  HLS     fixed PropertyStruct to handle utf-8
 #***********************************************************************
 
 import os
@@ -37,19 +38,18 @@ dll_mapping = {"wcsrv":    ("wcsrv2.dll",  "wcsrv2x64.dll"),
                "wcsgate":  ("wcsgate.dll", "wcsgate64.dll"),
               }
 
+prop_struct  = "\n"
+prop_struct  += "class PropertyStruct(ctypes.Structure):\n"
 gettersetter = ""
 gettersetter += "    def __getattribute__(self, name):\n"
 gettersetter += "        val = object.__getattribute__(self, name)\n"
 gettersetter += "        if isinstance(val, bytes):\n"
-gettersetter += "            return val.decode()\n"
+gettersetter += "            return val.decode('ISO-8859-1')\n"
 gettersetter += "        return val\n"
 gettersetter += "    def __setattr__(self, name, value):\n"
 gettersetter += "        if isinstance(value, str):\n"
-gettersetter += "            value = value.encode()\n"
+gettersetter += "            value = value.encode('ISO-8859-1')\n"
 gettersetter += "        object.__setattr__(self, name, value)\n\n"
-
-prop_struct  = "\n"
-prop_struct  += "class PropertyStruct(ctypes.Structure):\n"
 prop_struct  += gettersetter
 
 def structures_to_ctypes(input_file, output_file, do_extra_set = []):

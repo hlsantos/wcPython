@@ -1,4 +1,4 @@
-# Created by cpp2py on 2023-01-30 20:55:23.435299
+# Created by cpp2py on 2023-02-02 21:53:12.891634
 
 import ctypes
 from ctypes import wintypes
@@ -12,11 +12,11 @@ class PropertyStruct(ctypes.Structure):
     def __getattribute__(self, name):
         val = object.__getattribute__(self, name)
         if isinstance(val, bytes):
-            return val.decode()
+            return val.decode('ISO-8859-1')
         return val
     def __setattr__(self, name, value):
         if isinstance(value, str):
-            value = value.encode()
+            value = value.encode('ISO-8859-1')
         object.__setattr__(self, name, value)
 
 class TConferencePaths(PropertyStruct):
